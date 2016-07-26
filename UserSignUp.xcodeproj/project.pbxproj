@@ -12,6 +12,7 @@
 		BBCAFEBC1D4770CF00789817 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BBCAFEBA1D4770CF00789817 /* Main.storyboard */; };
 		BBCAFEBE1D4770CF00789817 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BBCAFEBD1D4770CF00789817 /* Assets.xcassets */; };
 		BBCAFEC11D4770CF00789817 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BBCAFEBF1D4770CF00789817 /* LaunchScreen.storyboard */; };
+		BBCAFEC91D4780FB00789817 /* signInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBCAFEC81D4780FB00789817 /* signInfo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		BBCAFEBD1D4770CF00789817 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BBCAFEC01D4770CF00789817 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BBCAFEC21D4770CF00789817 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BBCAFEC81D4780FB00789817 /* signInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = signInfo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 				BBCAFEBD1D4770CF00789817 /* Assets.xcassets */,
 				BBCAFEBF1D4770CF00789817 /* LaunchScreen.storyboard */,
 				BBCAFEC21D4770CF00789817 /* Info.plist */,
+				BBCAFEC81D4780FB00789817 /* signInfo.swift */,
 			);
 			path = UserSignUp;
 			sourceTree = "<group>";
@@ -137,6 +140,7 @@
 			files = (
 				BBCAFEB91D4770CF00789817 /* ViewController.swift in Sources */,
 				BBCAFEB71D4770CF00789817 /* AppDelegate.swift in Sources */,
+				BBCAFEC91D4780FB00789817 /* signInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
