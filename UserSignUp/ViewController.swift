@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController , UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate {
+class ViewController: UIViewController , UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var userName: UITextField!
     @IBOutlet weak var phoneNumber: UITextField!
@@ -18,6 +18,8 @@ class ViewController: UIViewController , UIImagePickerControllerDelegate, UINavi
     @IBOutlet weak var introTextview: UITextView!
     
     let pickImage = UIImagePickerController()
+    let screenSize: CGRect = UIScreen.mainScreen().bounds
+    var keyboardheight: CGFloat = 0
     var shift: Bool = false
     @IBAction func ImagePickButton(sender: AnyObject) {
         presentViewController(pickImage, animated: true, completion: nil)
@@ -36,57 +38,59 @@ class ViewController: UIViewController , UIImagePickerControllerDelegate, UINavi
         introTextview.backgroundColor = UIColor.yellowColor()
 
         presentViewController(newVC, animated: true, completion: nil)
-        
         userName.rightView = UIView()
         userName.rightViewMode = .Always
-
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         userName.delegate = self
         phoneNumber.delegate = self
         emailID.delegate = self
         password.delegate = self
         introTextview.delegate = self
-        
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(keyboardReturn)))
-        
         pickImage.delegate = self
         
-        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillShow), name: UIKeyboardWillShowNotification, object: nil)
     }
     
-    func imagePickerController(imager: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func keyboardWillShow(notification:NSNotification) {
+        let keyBoardFrame = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+        keyboardheight = keyBoardFrame.height
+    }
 
+    func imagePickerController(imager: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         let newImage = info[UIImagePickerControllerOriginalImage] as! UIImage
-        
         pickedimage.image = newImage
         dismissViewControllerAnimated(true, completion: nil)
-        
     }
 
-    
     func keyboardReturn() {
         view.endEditing(true)
         //textField.resignFirstResponder()
     }
 }
 
-
+/////////////textfield
 extension ViewController: UITextFieldDelegate {
 
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-
         return true
     }
-    
+
     func textFieldDidBeginEditing(textField: UITextField) {
-        if textField.frame.origin.y - 100 > view.frame.origin.y {
-            view.frame = CGRect(x: view.frame.origin.x, y: view.frame.origin.y-100, width: view.frame.size.width, height: view.frame.size.height)
+        
+//        if textField.frame.origin.y - 100 > view.frame.origin.y {
+//            view.frame = CGRect(x: view.frame.origin.x, y: view.frame.origin.y-100, width: view.frame.size.width, height: view.frame.size.height)
+//            shift = true
+//        } else {
+//            shift = false
+//        }
+
+        if textField.frame.origin.y + textField.frame.size.height > screenSize.height - keyboardheight {
+            view.frame = CGRect(x: view.frame.origin.x, y: view.frame.origin.y-keyboardheight, width: view.frame.size.width, height: view.frame.size.height)
             shift = true
         } else {
             shift = false
@@ -100,15 +104,38 @@ extension ViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(textField: UITextField) {
         
         // if valid email 
-        textField.rightViewMode = .Never
-        textField.rightView = nil
-        // if not valid
-        textField.rightViewMode = .Always
-        textField.rightView = UIView()
+//        textField.rightViewMode = .Never
+//        textField.rightView = nil
+//        // if not valid
+//        textField.rightViewMode = .Always
+//        textField.rightView = UIView()
         if shift {
-        view.frame = CGRect(x: view.frame.origin.x, y: view.frame.origin.y+100, width: view.frame.size.width, height: view.frame.size.height)
+        view.frame = CGRect(x: view.frame.origin.x, y: view.frame.origin.y+keyboardheight, width: view.frame.size.width, height: view.frame.size.height)
         }
         
+    }
+
+}
+
+///////////////textview
+
+extension ViewController: UITextViewDelegate {
+    
+    func textViewDidBeginEditing(textView: UITextView) {
+        
+        if textView.frame.origin.y + textView.frame.size.height > screenSize.height - keyboardheight {
+            view.frame = CGRect(x: view.frame.origin.x, y: view.frame.origin.y-keyboardheight, width: view.frame.size.width, height: view.frame.size.height)
+            shift = true
+        } else {
+            shift = false
+            }
+        
+    }
+    
+    func textViewDidEndEditing(textView: UITextView) {
+        if shift {
+            view.frame = CGRect(x: view.frame.origin.x, y: view.frame.origin.y+keyboardheight, width: view.frame.size.width, height: view.frame.size.height)
+        }
     }
 
 }
