@@ -16,13 +16,20 @@ class signInfo: UIViewController {
     var signPassword: String!
     var signPic: UIImage!
     var signUserInfo: String!
-    
-    @IBOutlet weak var userSignUp: UITextField!
-    @IBOutlet weak var phoneSignUp: UITextField!
-    @IBOutlet weak var emailIdSignUp: UITextField!
-    @IBOutlet weak var passwordSignUp: UITextField!
+//    
+//    @IBOutlet weak var userSignUp: UITextField!
+//    @IBOutlet weak var phoneSignUp: UITextField!
+//    @IBOutlet weak var emailIdSignUp: UITextField!
+//    @IBOutlet weak var passwordSignUp: UITextField!
+//    @IBOutlet weak var picSignUp: UIImageView!
+//    @IBOutlet weak var infoSignUp: UILabel!
+    @IBOutlet weak var userSignUp: UILabel!
+    @IBOutlet weak var phoneSignUp: UILabel!
+    @IBOutlet weak var emailIdSignUp: UILabel!
+    @IBOutlet weak var passwordSignUp: UILabel!
     @IBOutlet weak var picSignUp: UIImageView!
     @IBOutlet weak var infoSignUp: UILabel!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +46,7 @@ class signInfo: UIViewController {
         //picSignUp.frame = CGRect(x: 50, y: 300, width: 80, height: 80)
         picSignUp.image = signPic
         infoSignUp.text = signUserInfo
+        
         
     }
 
