@@ -8,15 +8,17 @@
 
 import UIKit
 
-class ViewController: UIViewController , UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+class ViewController: UIViewController , UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate {
     
     @IBOutlet weak var userName: UITextField!
     @IBOutlet weak var phoneNumber: UITextField!
     @IBOutlet weak var emailID: UITextField!
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var pickedimage: UIImageView!
+    @IBOutlet weak var introTextview: UITextView!
+    
     let pickImage = UIImagePickerController()
-
+    var shift: Bool = false
     @IBAction func ImagePickButton(sender: AnyObject) {
         presentViewController(pickImage, animated: true, completion: nil)
     }
@@ -24,13 +26,19 @@ class ViewController: UIViewController , UIImagePickerControllerDelegate, UINavi
     @IBAction func signUpTapped(sender: AnyObject) {
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         let newVC = storyBoard.instantiateViewControllerWithIdentifier("signInfo") as! signInfo
-       // newVC.selectedColorFromPreviousScreen = colors[selectedRow]
-        newVC.signUsername = userName.text!
+        newVC.signUsername = userName.text
         newVC.signPhoneNumber = phoneNumber.text
         newVC.signEmailId = emailID.text
         newVC.signPassword = password.text
         newVC.signPic = pickedimage.image
+        newVC.signUserInfo = introTextview.text
+        introTextview.editable = true
+        introTextview.backgroundColor = UIColor.yellowColor()
+
         presentViewController(newVC, animated: true, completion: nil)
+        
+        userName.rightView = UIView()
+        userName.rightViewMode = .Always
 
     }
     
@@ -42,6 +50,7 @@ class ViewController: UIViewController , UIImagePickerControllerDelegate, UINavi
         phoneNumber.delegate = self
         emailID.delegate = self
         password.delegate = self
+        introTextview.delegate = self
         
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(keyboardReturn)))
         
@@ -61,25 +70,27 @@ class ViewController: UIViewController , UIImagePickerControllerDelegate, UINavi
 
     
     func keyboardReturn() {
+        view.endEditing(true)
         //textField.resignFirstResponder()
-        
     }
-
 }
 
 
 extension ViewController: UITextFieldDelegate {
-//    func textFieldShouldReturn(textField: UITextField) -> Bool {
-//        if textField.text?.characters.count == 10 {
-//            textField.resignFirstResponder()
-//            
-//            return true
-//        }
-//        return false
-//    }
+
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+
+        return true
+    }
     
     func textFieldDidBeginEditing(textField: UITextField) {
-        
+        if textField.frame.origin.y - 100 > view.frame.origin.y {
+            view.frame = CGRect(x: view.frame.origin.x, y: view.frame.origin.y-100, width: view.frame.size.width, height: view.frame.size.height)
+            shift = true
+        } else {
+            shift = false
+        }
     }
     
 //    func textFieldShouldEndEditing(textField: UITextField) -> Bool {
@@ -88,13 +99,16 @@ extension ViewController: UITextFieldDelegate {
     
     func textFieldDidEndEditing(textField: UITextField) {
         
+        // if valid email 
+        textField.rightViewMode = .Never
+        textField.rightView = nil
+        // if not valid
+        textField.rightViewMode = .Always
+        textField.rightView = UIView()
+        if shift {
+        view.frame = CGRect(x: view.frame.origin.x, y: view.frame.origin.y+100, width: view.frame.size.width, height: view.frame.size.height)
+        }
+        
     }
 
 }
-
-//extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-//    //let pickImage: UIImagePickerController()
-//    
-//    
-//    
-//}
