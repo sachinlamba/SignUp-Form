@@ -16,6 +16,7 @@ class ViewController: UIViewController , UIImagePickerControllerDelegate, UINavi
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var pickedimage: UIImageView!
     @IBOutlet weak var introTextview: UITextView!
+    @IBOutlet weak var buttonSignUp: UIButton!
     
     let pickImage = UIImagePickerController()
     let screenSize: CGRect = UIScreen.mainScreen().bounds
@@ -53,6 +54,8 @@ class ViewController: UIViewController , UIImagePickerControllerDelegate, UINavi
         pickImage.delegate = self
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillShow), name: UIKeyboardWillShowNotification, object: nil)
+        buttonSignUp.userInteractionEnabled = false
+        buttonSignUp.backgroundColor = UIColor.yellowColor()
     }
     
     func keyboardWillShow(notification:NSNotification) {
@@ -81,13 +84,6 @@ extension ViewController: UITextFieldDelegate {
     }
 
     func textFieldDidBeginEditing(textField: UITextField) {
-        
-//        if textField.frame.origin.y - 100 > view.frame.origin.y {
-//            view.frame = CGRect(x: view.frame.origin.x, y: view.frame.origin.y-100, width: view.frame.size.width, height: view.frame.size.height)
-//            shift = true
-//        } else {
-//            shift = false
-//        }
 
         if textField.frame.origin.y + textField.frame.size.height > screenSize.height - keyboardheight {
             view.frame = CGRect(x: view.frame.origin.x, y: view.frame.origin.y-keyboardheight, width: view.frame.size.width, height: view.frame.size.height)
@@ -103,7 +99,7 @@ extension ViewController: UITextFieldDelegate {
     
     func textFieldDidEndEditing(textField: UITextField) {
         
-        // if valid email 
+//        // if valid email
 //        textField.rightViewMode = .Never
 //        textField.rightView = nil
 //        // if not valid
@@ -111,6 +107,15 @@ extension ViewController: UITextFieldDelegate {
 //        textField.rightView = UIView()
         if shift {
         view.frame = CGRect(x: view.frame.origin.x, y: view.frame.origin.y+keyboardheight, width: view.frame.size.width, height: view.frame.size.height)
+        }
+        
+        if !((userName.text?.isEmpty)! || (phoneNumber.text?.isEmpty)! || (emailID.text?.isEmpty)! || (introTextview.text?.isEmpty)! || (password.text?.isEmpty)! ) {
+            buttonSignUp.userInteractionEnabled = true
+            buttonSignUp.backgroundColor = UIColor.whiteColor()
+
+        } else {
+            buttonSignUp.userInteractionEnabled = false
+            buttonSignUp.backgroundColor = UIColor.yellowColor()
         }
         
     }
