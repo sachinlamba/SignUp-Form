@@ -35,12 +35,9 @@ class ViewController: UIViewController , UIImagePickerControllerDelegate, UINavi
         newVC.signPassword = password.text
         newVC.signPic = pickedimage.image
         newVC.signUserInfo = introTextview.text
-        introTextview.editable = true
-        introTextview.backgroundColor = UIColor.yellowColor()
 
         presentViewController(newVC, animated: true, completion: nil)
-        userName.rightView = UIView()
-        userName.rightViewMode = .Always
+        
     }
     
     override func viewDidLoad() {
@@ -56,6 +53,7 @@ class ViewController: UIViewController , UIImagePickerControllerDelegate, UINavi
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillShow), name: UIKeyboardWillShowNotification, object: nil)
         buttonSignUp.userInteractionEnabled = false
         buttonSignUp.backgroundColor = UIColor.yellowColor()
+        
     }
     
     func keyboardWillShow(notification:NSNotification) {
@@ -75,7 +73,8 @@ class ViewController: UIViewController , UIImagePickerControllerDelegate, UINavi
     }
 }
 
-/////////////textfield
+/////////////textfield********************************************************************
+
 extension ViewController: UITextFieldDelegate {
 
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -85,6 +84,14 @@ extension ViewController: UITextFieldDelegate {
 
     func textFieldDidBeginEditing(textField: UITextField) {
 
+        let imageRight = UIImage(named: "yellow")
+        let imageRightView = UIImageView(image: imageRight)
+        imageRightView.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
+        textField.leftView = imageRightView
+        textField.leftViewMode = .Always
+        
+        textField.clearButtonMode = .WhileEditing
+        
         if textField.frame.origin.y + textField.frame.size.height > screenSize.height - keyboardheight {
             view.frame = CGRect(x: view.frame.origin.x, y: view.frame.origin.y-keyboardheight, width: view.frame.size.width, height: view.frame.size.height)
             shift = true
@@ -122,7 +129,7 @@ extension ViewController: UITextFieldDelegate {
 
 }
 
-///////////////textview
+///////////////textview******************************************************
 
 extension ViewController: UITextViewDelegate {
     
